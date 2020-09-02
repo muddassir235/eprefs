@@ -21,7 +21,7 @@ dependencies {
 
 ## How to Use
 #### Save to SharedPreferences
-Save any boolean, int, long, float, string, or any array of (boolean, int, long, float, string), any Serializable Object, or an ArrayList of any Serializable Objects in SharedPreferences from within a Context (e.g. Activity, Service, Application e.t.c.). Can also be called used `context.save` or `context.load`. (Throws unsupported type exception in case the object is not serializable.)
+Save any boolean, int, long, float, string, or any array of (boolean, int, long, float, string), any Serializable Object, or an ArrayList of any Serializable Objects in SharedPreferences from within a Context (e.g. Activity, Service, Application e.t.c.). Can also be called using `context.save`/`context.load` or `sharedPreferences.save`/`sharedPreferences.load`. (Throws unsupported type exception in case the object is not serializable.)
 ```kotlin
 save("mykey", true)                             // Boolean
 save("mykey", 1)                                // Int
