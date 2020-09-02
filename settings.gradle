@@ -1,0 +1,3 @@
+include ':eprefs'
+include ':app'
+rootProject.name = "extended-prefs"
