@@ -1,4 +1,4 @@
-# eprefs
+# Eprefs
 Extended Shared Preferences. Kotlin library that allows you to save and load arrays of primitives and any Serializable data classes.
 
 ## Add Dependencies
