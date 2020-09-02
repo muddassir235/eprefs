@@ -1,5 +1,6 @@
 # Eprefs
 [![Release](https://jitpack.io/v/muddassir235/eprefs.svg?style=flat-square)](https://jitpack.io/#muddassir235/eprefs/)
+
 Extended Shared Preferences. Kotlin library that allows you to save and load arrays of primitives and any Serializable data classes.
 
 ## Add Dependencies
