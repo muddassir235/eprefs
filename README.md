@@ -15,7 +15,7 @@ allprojects {
 and the following in your app level build.gradle
 ```groovy
 dependencies {
-    implementation 'com.github.muddassir235:eprefs:1.3'
+    implementation 'com.github.muddassir235:eprefs:1.4'
 }
 ```
 
@@ -38,23 +38,39 @@ save("mykey", arrayListOfAnySerializableObject) // An ArrayList of any Serializa
 #### Load from SharedPreferences
 Load any saved boolean, int, long, float, string, or array of (boolean, int, long, float, string), a Serializable Object, or an ArrayList of any Serializable Objects from SharedPreferences within a Context. (Throws unsupported type exception in case the object is not serializable.)
 ```kotlin
-load<Boolean>("mykey")
-load<Int>("mykey")
-load<Long>("mykey")
-load<Float>("mykey")
-load<String>("mykey")
-load<Array<String>>("mykey")                   // Arrays of all primitive types are supported
+val value = load<Boolean>("mykey")
+val value = load<Int>("mykey")
+val value = load<Long>("mykey")
+val value = load<Float>("mykey")
+val value = load<String>("mykey")
+val value = load<Array<String>>("mykey")                   
 .
 .
 .
-load<MySerializableObject>("mykey")            // Any Serializable object can be loaded.
-load<ArrayList<MySerializableObject>>("mykey") // An ArrayList of any Serializable Object can also be loaded.
+val value = load<MySerializableObject>("mykey")            
+val value = load<ArrayList<MySerializableObject>>("mykey")
 ```
-#### Safe Save and Load
+#### Delete from SharedPreferences
+Load any saved boolean, int, long, float, string, or array of (boolean, int, long, float, string), a Serializable Object, or an ArrayList of any Serializable Objects from SharedPreferences within a Context. (Throws unsupported type exception in case the object is not serializable.)
+```kotlin
+delete<Boolean>("mykey")
+delete<Int>("mykey")
+delete<Long>("mykey")
+delete<Float>("mykey")
+delete<String>("mykey")
+delete<Array<String>>("mykey")                  
+.
+.
+.
+delete<MySerializableObject>("mykey")           
+delete<ArrayList<MySerializableObject>>("mykey")
+```
+#### Safe Save, Load and Delete
 Safe versions of the above save and load functions which avoid/ignore any exceptions.
 ```kotlin
 safeSave("mykey", myObject) // Does nothing if it fails
 safeLoad<MyObject>("mykey") // Returns null in case any exception occurs
+safeDelete<MyObject>("mykey") // Does nothing if it fails
 ```
 
 Get a reference to default shared preferences from within a context (e.g. Activity, Service, Application)
