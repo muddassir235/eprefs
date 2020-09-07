@@ -53,6 +53,26 @@ inline fun <reified T: Serializable> Context.safeLoad(key: String): T? {
 }
 
 /**
+ * Context.load - Delete any object in SharedPreferences
+ *
+ * @param key The key of the object to delete
+ * @param type The type of the object that is being delete.
+ */
+inline fun <reified T: Serializable> Context.delete(key: String) {
+    return prefs.delete<T>(key)
+}
+
+/**
+ * Context.safeLoad - Delete any object in SharedPreferences safely (avoids exceptions)
+ *
+ * @param key The key of the object to delete
+ * @param type The type of the object that is being delete.
+ */
+inline fun <reified T: Serializable> Context.safeDelete(key: String) {
+    return prefs.safeDelete<T>(key)
+}
+
+/**
  * SharedPreferences.safeSave - Save any serializable object in SharedPreferences safely
  *                              (avoids exceptions)
  *
@@ -96,6 +116,59 @@ fun SharedPreferences.save(key: String, value: Any?) {
 
         commit()
     }
+}
+
+/**
+ * SharedPreferences.delete - Delete any  object that is saved in SharedPreferences safely
+ *                            avoiding any exceptions
+ *
+ * @param key The key of the object to delete
+ * @template T Serializable type
+ */
+inline fun <reified T: Serializable> SharedPreferences.safeDelete(key: String) {
+    try {
+        delete<T>(key)
+    } catch (e: Exception) {
+        // Do nothing
+    }
+}
+
+/**
+ * SharedPreferences.delete - Delete any  object that is saved in SharedPreferences
+ *
+ * @param key The key of the object to delete
+ * @template T Serializable type
+ */
+inline fun <reified T: Serializable> SharedPreferences.delete(key: String) {
+    return delete(key, T::class)
+}
+
+fun <T: Any> SharedPreferences.delete(key: String, type: KClass<T>) {
+    val editor = this.edit()
+
+    when(type) {
+        Boolean::class        -> editor.remove(key)
+        Int::class            -> editor.remove(key)
+        Long::class           -> editor.remove(key)
+        Float::class          -> editor.remove(key)
+        String::class         -> editor.remove(key)
+        Array<Boolean>::class -> deleteArray(key, Boolean::class)
+        Array<Int>::class     -> deleteArray(key, Int::class)
+        Array<Long>::class    -> deleteArray(key, Long::class)
+        Array<Float>::class   -> deleteArray(key, Float::class)
+        Array<String>::class  -> deleteArray(key, String::class)
+        ArrayList::class      -> deleteArrayList(key, Serializable::class)
+        Serializable::class   -> editor.remove(key)
+        else -> {
+            if(type.java.newInstance() is Serializable)  {
+                editor.remove(key)
+            } else {
+                throw Exception("Unsupported Type")
+            }
+        }
+    }
+
+    editor.apply()
 }
 
 /**
@@ -187,6 +260,31 @@ private inline fun <reified T: Any> SharedPreferences.loadArray(key: String, typ
     return list.toTypedArray()
 }
 
+private inline fun <reified T: Any> SharedPreferences.deleteArray(key: String, type: KClass<T>) {
+    val editor = edit()
+    val list = ArrayList<T>()
+
+    val length = load(key, Int::class) ?: 0
+
+    for(i in 0 until length) {
+        @Suppress("IMPLICIT_CAST_TO_ANY")
+        when(type) {
+            Boolean::class -> editor.remove(key+i)
+            Int::class     -> editor.remove(key+i)
+            Long::class    -> editor.remove(key+i)
+            Float::class   -> editor.remove(key+i)
+            String::class  -> editor.remove(key+i)
+            else -> {
+                throw Exception("Unsupported Type")
+            }
+        }
+    }
+
+    editor.remove(key)
+
+    editor.apply()
+}
+
 private fun <T: Any> SharedPreferences.loadArrayList(key: String, type: KClass<T>)
         : ArrayList<T>? {
     val list = ArrayList<T>()
@@ -206,4 +304,25 @@ private fun <T: Any> SharedPreferences.loadArrayList(key: String, type: KClass<T
     }
 
     return list
+}
+
+private fun <T: Any> SharedPreferences.deleteArrayList(key: String, type: KClass<T>) {
+    val editor = edit()
+
+    val list = ArrayList<T>()
+
+    val length = load(key, Int::class) ?: 0
+
+    for(i in 0 until length) {
+        when {
+            type == Serializable::class -> editor.remove(key + i)
+            type.java.newInstance() is Serializable -> editor.remove(key + i)
+            else -> {
+                throw Exception("Unsupported Type")
+            }
+        }
+    }
+
+    editor.remove(key)
+    editor.apply()
 }

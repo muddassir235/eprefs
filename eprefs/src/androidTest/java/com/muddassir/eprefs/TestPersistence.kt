@@ -23,30 +23,45 @@ class TestPersistence {
     fun testSaveLoadBool() {
         context.save("test_bool", true)
         assertTrue(context.load("test_bool")?:false)
+
+        context.delete<Boolean>("test_bool")
+        assertNull(context.load<Boolean>("test_bool"))
     }
 
     @Test
     fun testSaveLoadInt() {
         context.save("test_int", 7)
         assertEquals(7,context.load<Int>("test_int")?:0)
+
+        context.delete<Int>("test_int")
+        assertNull(context.load<Int>("test_int"))
     }
 
     @Test
     fun testSaveLoadLong() {
         context.save("test_long", 77777777L)
         assertEquals(77777777L,context.load("test_long")?:0L)
+
+        context.delete<Long>("test_long")
+        assertNull(context.load<Long>("test_long"))
     }
 
     @Test
     fun testSaveLoadFloat() {
         context.save("test_float", 7.7f)
         assertEquals(7.7f,context.load<Float>("test_float")?:0.0f)
+
+        context.delete<Float>("test_float")
+        assertNull(context.load<Float>("test_float"))
     }
 
     @Test
     fun testSaveLoadString() {
         context.save("test_string", "test")
         assertEquals("test",context.load<String>("test_string")?:"")
+
+        context.delete<String>("test_string")
+        assertNull(context.load<String>("test_string"))
     }
 
     @Test
@@ -59,6 +74,9 @@ class TestPersistence {
         found.forEachIndexed { index, b ->
             assertEquals(expected[index], b)
         }
+
+        context.delete<Array<Boolean>>("test_bool_array")
+        assertNull(context.load<Array<Boolean>>("test_bool_array"))
     }
 
     @Test
@@ -71,6 +89,9 @@ class TestPersistence {
         found.forEachIndexed { index, i ->
             assertEquals(expected[index], i)
         }
+
+        context.delete<Array<Int>>("test_int_array")
+        assertNull(context.load<Array<Int>>("test_int_array"))
     }
 
     @Test
@@ -83,6 +104,9 @@ class TestPersistence {
         found.forEachIndexed { index, l ->
             assertEquals(expected[index], l)
         }
+
+        context.delete<Array<Long>>("test_long_array")
+        assertNull(context.load<Array<Long>>("test_long_array"))
     }
 
     @Test
@@ -95,6 +119,9 @@ class TestPersistence {
         found.forEachIndexed { index, f ->
             assertEquals(expected[index], f)
         }
+
+        context.delete<Array<Float>>("test_float_array")
+        assertNull(context.load<Array<Float>>("test_float_array"))
     }
 
     @Test
@@ -107,6 +134,9 @@ class TestPersistence {
         found.forEachIndexed { index, s ->
             assertEquals(expected[index], s)
         }
+
+        context.delete<Array<String>>("test_string_array")
+        assertNull(context.load<Array<String>>("test_string_array"))
     }
 
     @Test
@@ -127,6 +157,9 @@ class TestPersistence {
         val found = context.load("test_object") ?: TestObject()
 
         assertEquals(expected, found)
+
+        context.delete<TestObject>("test_object")
+        assertNull(context.load<TestObject>("test_object"))
     }
 
     @Test
@@ -168,6 +201,9 @@ class TestPersistence {
         found?.toTypedArray()?.forEachIndexed { index, testObject ->
             assertEquals(expected[index], testObject)
         }
+
+        context.delete<ArrayList<TestObject>>("test_object_array")
+        assertNull(context.load<ArrayList<TestObject>>("test_object_array"))
     }
 
     @Test
@@ -204,6 +240,9 @@ class TestPersistence {
         found?.toTypedArray()?.forEachIndexed { index, testObject ->
             assertEquals(expected[index], testObject)
         }
+
+        context.delete<ArrayList<TestObject>>("test_object_array")
+        assertNull(context.load<ArrayList<TestObject>>("test_object_array"))
     }
 
     @Test
