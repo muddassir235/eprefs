@@ -18,7 +18,7 @@ val Context.prefs: SharedPreferences get() = this.getSharedPreferences(
  * @param key The key of the object to save
  * @param value the value of the object to save
  */
-fun Context.save(key: String, value: Any) {
+fun Context.save(key: String, value: Any?) {
     prefs.save(key, value)
 }
 
@@ -28,7 +28,7 @@ fun Context.save(key: String, value: Any) {
  * @param key The key of the object to save
  * @param value the value of the object to save
  */
-fun Context.safeSave(key: String, value: Any) {
+fun Context.safeSave(key: String, value: Any?) {
     prefs.safeSave(key, value)
 }
 
@@ -59,7 +59,7 @@ inline fun <reified T: Serializable> Context.safeLoad(key: String): T? {
  * @param key The key of the object to save
  * @param value the value of the object to save
  */
-fun SharedPreferences.safeSave(key: String, value: Any) {
+fun SharedPreferences.safeSave(key: String, value: Any?) {
     safe { save(key, value) }
 }
 
@@ -80,7 +80,7 @@ inline fun <reified T: Serializable> SharedPreferences.safeLoad(key: String): T?
  * @param key The key of the object to save
  * @param value the value of the object to save
  */
-fun SharedPreferences.save(key: String, value: Any) {
+fun SharedPreferences.save(key: String, value: Any?) {
     with (edit()) {
         when (value) {
             is Boolean      -> putBoolean(key, value)
