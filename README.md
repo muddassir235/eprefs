@@ -80,6 +80,6 @@ Get a reference to default shared preferences from within a context (e.g. Activi
 this.prefs
 ```
 
-## Apps by Muddassir Ahmed:
+## [Apps by Muddassir Ahmed](https://play.google.com/store/apps/developer?id=Muddassir+Khan):
 * https://play.google.com/store/apps/details?id=com.muddassirkhan.quran_android
 * https://play.google.com/store/apps/details?id=com.app.kitaabattawheed
