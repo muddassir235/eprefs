@@ -214,7 +214,7 @@ fun <T: Any> SharedPreferences.load(key: String, type: KClass<T>): T? {
         }
     }
 
-    return result as T
+    return result as T?
 }
 
 private fun SharedPreferences.saveArray(key: String, values: Array<*>) {
