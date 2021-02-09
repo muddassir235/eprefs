@@ -3,6 +3,8 @@
 
 Extended Shared Preferences. Kotlin library that allows you to save and load arrays of primitives and any Serializable data classes.
 
+Used in https://play.google.com/store/apps/details?id=com.muddassirkhan.quran_android
+
 ## Add Dependencies
 Add the following in your project level build.gradle
 ```groovy
@@ -77,3 +79,14 @@ Get a reference to default shared preferences from within a context (e.g. Activi
 ```kotlin
 this.prefs
 ```
+
+## [Apps by Muddassir Ahmed](https://play.google.com/store/apps/developer?id=Muddassir+Khan):
+* https://play.google.com/store/apps/details?id=com.muddassirkhan.quran_android
+* https://play.google.com/store/apps/details?id=com.app.kitaabattawheed
+
+
+## Muddassir Ahmed Links:
+
+* https://www.linkedin.com/in/muddassir35/
+* https://muddassirahmed.medium.com/
+* https://stackoverflow.com/users/5841416/muddassir-ahmed
