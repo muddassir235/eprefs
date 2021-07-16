@@ -8,7 +8,6 @@ import org.junit.runner.RunWith
 
 import org.junit.Assert.*
 import java.io.Serializable
-import kotlin.Exception
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -163,50 +162,6 @@ class TestPersistence {
     }
 
     @Test
-    fun testSaveLoadObjectArrayList() {
-        val expected = ArrayList<TestObject>()
-        expected.add(
-            TestObject(
-                false,
-                23,
-                23L,
-                23.0f,
-                "Test",
-                arrayOf(true, true, true),
-                arrayOf(23, 24, 25),
-                arrayOf(23L, 24L, 25L),
-                arrayOf(23.0f, 24.0f, 25.0f),
-                arrayOf("Test1", "Test2", "Test3")
-            )
-        )
-
-        expected.add(
-            TestObject(
-                false,
-                33,
-                33L,
-                33.0f,
-                "Test1",
-                arrayOf(true, true, true),
-                arrayOf(33, 34, 35),
-                arrayOf(33L, 34L, 35L),
-                arrayOf(33.0f, 34.0f, 35.0f),
-                arrayOf("Test10", "Test20", "Test30")
-            )
-        )
-
-        context.save("test_object_array", expected)
-        val found = context.load<ArrayList<TestObject>>("test_object_array")
-
-        found?.toTypedArray()?.forEachIndexed { index, testObject ->
-            assertEquals(expected[index], testObject)
-        }
-
-        context.delete<ArrayList<TestObject>>("test_object_array")
-        assertNull(context.load<ArrayList<TestObject>>("test_object_array"))
-    }
-
-    @Test
     fun testSaveLoadObjectArray() {
         val expected = arrayOf(
             TestObject(
@@ -235,14 +190,14 @@ class TestPersistence {
             )
         )
         context.save("test_object_array", expected)
-        val found = context.load<ArrayList<TestObject>>("test_object_array")
+        val found = context.load<Array<TestObject>>("test_object_array")
 
-        found?.toTypedArray()?.forEachIndexed { index, testObject ->
+        found?.forEachIndexed { index, testObject ->
             assertEquals(expected[index], testObject)
         }
 
-        context.delete<ArrayList<TestObject>>("test_object_array")
-        assertNull(context.load<ArrayList<TestObject>>("test_object_array"))
+        context.delete<Array<TestObject>>("test_object_array")
+        assertNull(context.load<Array<TestObject>>("test_object_array"))
     }
 
     @Test
@@ -261,39 +216,5 @@ class TestPersistence {
         assertNull(context.load<TestObject>("nonexistent_key"))
         assertNull(context.load<Array<TestObject>>("nonexistent_key"))
         assertNull(context.load<ArrayList<TestObject>>("nonexistent_key"))
-    }
-
-    @Test(expected = Exception::class)
-    fun testUnsupportedObjectSave() {
-        context.save("exception_key", UnsupportedTestObject())
-    }
-
-    @Test(expected = Exception::class)
-    fun testUnsupportedArraySave() {
-        context.save("exception_key", arrayOf(UnsupportedTestObject()))
-    }
-
-    @Test(expected = Exception::class)
-    fun testUnsupportedArrayListSave() {
-        val list = ArrayList<UnsupportedTestObject>()
-        list.add(UnsupportedTestObject())
-        context.save("exception_key", list)
-    }
-
-    @Test
-    fun testUnsupportedObjectSaveSafe() {
-        context.safeSave("exception_key", UnsupportedTestObject())
-    }
-
-    @Test
-    fun testUnsupportedArraySaveSafe() {
-        context.safeSave("exception_key", arrayOf(UnsupportedTestObject()))
-    }
-
-    @Test
-    fun testUnsupportedObjectListSaveSafe() {
-        val list = ArrayList<UnsupportedTestObject>()
-        list.add(UnsupportedTestObject())
-        context.safeSave("exception_key", list)
     }
 }

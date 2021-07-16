@@ -1,7 +1,5 @@
 package com.muddassir.eprefs
 
-import java.io.Serializable
-
 data class TestObject(
     val boolean: Boolean = true,
     val int: Int = 0,
@@ -13,7 +11,7 @@ data class TestObject(
     val longArray: Array<Long> = arrayOf(1L, 2L, 3L),
     val floatArray: Array<Float> = arrayOf(1.0f, 2.0f, 3.0f),
     val stringArray: Array<String> = arrayOf("1", "2", "3")
-): Serializable {
+) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -48,7 +46,3 @@ data class TestObject(
         return result
     }
 }
-
-data class UnsupportedTestObject(
-    val boolean: Boolean = true
-)

@@ -1,39 +1,34 @@
 package com.muddassir.eprefs
 
 import android.util.Base64
+import com.google.gson.Gson
 import java.io.*
+import kotlin.reflect.KClass
 
 inline fun safe(action: ((Unit) -> Unit)) {
     try { action.invoke(Unit) } catch (e: Exception) { /* don't care */ }
 }
 
-internal fun objectToString(`object`: Serializable?): String? {
+internal fun objectToString(`object`: Any?): String? {
+    val gson = Gson()
     var encoded: String? = null
     try {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        val objectOutputStream = ObjectOutputStream(byteArrayOutputStream)
-        objectOutputStream.writeObject(`object`)
-        objectOutputStream.close()
-        encoded = Base64.encodeToString(byteArrayOutputStream.toByteArray(), 0)
-    } catch (e: IOException) {
+        encoded = gson.toJson(`object`).toString()
+    } catch (e: Exception) {
         e.printStackTrace()
     }
+
     return encoded
 }
 
-fun stringToObject(string: String?): Serializable? {
-    val bytes = Base64.decode(string, 0)
-    var `object`: Serializable? = null
+internal fun <T:Any> stringToObject(string: String?, type: KClass<T>): T? {
+    val gson = Gson()
+    var `object`: T? = null
     try {
-        val objectInputStream =
-            ObjectInputStream(ByteArrayInputStream(bytes))
-        `object` = objectInputStream.readObject() as Serializable
-    } catch (e: IOException) {
-        e.printStackTrace()
-    } catch (e: ClassNotFoundException) {
-        e.printStackTrace()
-    } catch (e: ClassCastException) {
+        `object` = gson.fromJson(string, type.java)
+    } catch (e: Exception) {
         e.printStackTrace()
     }
+
     return `object`
 }
