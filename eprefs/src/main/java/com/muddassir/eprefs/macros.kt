@@ -9,7 +9,7 @@ inline fun safe(action: ((Unit) -> Unit)) {
     try { action.invoke(Unit) } catch (e: Exception) { /* don't care */ }
 }
 
-internal fun objectToString(`object`: Any?): String? {
+fun objectToString(`object`: Any?): String? {
     val gson = Gson()
     var encoded: String? = null
     try {
@@ -21,7 +21,7 @@ internal fun objectToString(`object`: Any?): String? {
     return encoded
 }
 
-internal fun <T:Any> stringToObject(string: String?, type: KClass<T>): T? {
+fun <T:Any> stringToObject(string: String?, type: KClass<T>): T? {
     val gson = Gson()
     var `object`: T? = null
     try {
