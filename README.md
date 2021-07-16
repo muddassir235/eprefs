@@ -17,7 +17,7 @@ allprojects {
 and the following in your app level build.gradle
 ```groovy
 dependencies {
-    implementation 'com.github.muddassir235:eprefs:1.5'
+    implementation 'com.github.muddassir235:eprefs:1.6'
 }
 ```
 
